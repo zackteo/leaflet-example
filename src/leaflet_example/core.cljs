@@ -37,16 +37,17 @@
                                              [104.015476006,1.400841267]]]]}))
 
 (defn leaflet-map []
-  (let [data (reagent.ratom/reaction (true? @state))]
-    (fn []
-      [MapContainer
-       {:center default-center :zoom 12 ;; :scrollWheelZoom false
-        :style {:width "1000px" :height "1000px"}}
-       [TileLayer
-        {:url osm-url
-         :attribution copy-osm}]
-       [GeoJSON
-        {:data @data}]])))
+  (fn []
+    [:div
+     [:div.delete-me (pr-str @state)]
+     [MapContainer
+      {:center default-center :zoom 12 ;; :scrollWheelZoom false
+       :style {:width "1000px" :height "1000px"}}
+      [TileLayer
+       {:url osm-url
+        :attribution copy-osm}]
+      [GeoJSON
+       {:data @state}]]]))
 
 (defn button []
   (fn []
