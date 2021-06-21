@@ -15,6 +15,8 @@
 (def TileLayer (r/adapt-react-class react-leaflet/TileLayer))
 (def default-center [1.352 103.851])
 
+(def state (r/atom 0))
+
 (defn leaflet-map []
   (fn []
     [MapContainer
@@ -25,18 +27,28 @@
       {:url osm-url
        :attribution copy-osm}]]))
 
+(defn button []
+  (fn []
+    [:button.green
+     {:on-click #(swap! state inc)}
+     (str @state)]))
+
 ;; -------------------------
 ;; Initialize app
 
 
 (defn mount-root []
-  (d/render [leaflet-map] (.getElementById js/document "app")))
+  (d/render [:div
+             [button]
+             [leaflet-map]]
+            (.getElementById js/document "app")))
 
 ;; (defn mount-root []
 ;;   (d/render
 ;;     [:div
 ;;      ;; {:style {:height "100%"}}
 ;;      [home-page]] (.getElementById js/document "app")))
+
 
 (defn ^:export init! []
   (mount-root))
